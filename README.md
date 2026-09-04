@@ -1,6 +1,6 @@
 # Basketball-Parallax
 **DEMO**
-![Image](https://github.com/AmirAhadi-web/Espinas-Palace-Hotel/issues/1#issue-5337451450)
+![Image](https://github.com/AmirAhadi-web/Basketball-Parallax/issues/1#issue-5352070058)
 - [Demo Project](https://amirahadi-web.github.io/Basketball-Parallax/)
 - Developed by AmirMohammad Ahadi
 - Created - 2026-04-09
