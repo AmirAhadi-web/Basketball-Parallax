@@ -1,6 +1,6 @@
 # Basketball-Parallax
 **DEMO**
-![Image](https://github.com/AmirAhadi-web/Basketball-Parallax/issues/1#issue-5352070058)
+![Image](https://github.com/user-attachments/assets/7e7bbd8f-d486-4823-bb64-6f2dc7ea92aa)
 - [Demo Project](https://amirahadi-web.github.io/Basketball-Parallax/)
 - Developed by AmirMohammad Ahadi
 - Created - 2026-04-09
