@@ -1,0 +1,232 @@
+/* ==========================================================================
+   BLACKTOP — design system
+   Palettes & type live in @theme; hand-tuned components live below.
+   Build: npm run build:css
+   ========================================================================== */
+@import "tailwindcss";
+
+@theme {
+  /* ---- Typography -------------------------------------------------------- */
+  --font-display: "Anton", "Arial Narrow", Impact, sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- Palette — asphalt court ------------------------------------------- */
+  --color-asphalt: #111111; /* asphalt black      */
+  --color-coal: #1a1a18;    /* deep charcoal      */
+  --color-concrete: #82807a; /* concrete gray — bumped from #77746E for WCAG AA (4.8:1) */
+  --color-bone: #eae6dc;    /* warm off-white     */
+  --color-cream: #d8cfbe;   /* vintage cream      */
+  --color-orange: #d86b32;  /* basketball orange  */
+  --color-rust: #9d492b;    /* muted rust         */
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    background: #111111;
+    scrollbar-width: none;
+  }
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  body {
+    background-color: var(--color-asphalt);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-orange);
+    color: var(--color-asphalt);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 3px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Custom cursor owns the pointer on fine devices */
+  @media (pointer: fine) {
+    body.has-cursor,
+    body.has-cursor a,
+    body.has-cursor button {
+      cursor: none;
+    }
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+@layer components {
+  /* Skip link — visible only on keyboard focus */
+  .skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 300;
+    padding: 10px 16px;
+    background: var(--color-orange);
+    color: var(--color-asphalt);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transform: translateY(-260%);
+    transition: transform 0.2s ease;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  /* Editorial outline type */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(234 230 220 / 0.85);
+  }
+  .text-outline-faint {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(234 230 220 / 0.14);
+  }
+  @media (max-width: 768px) {
+    .text-outline {
+      -webkit-text-stroke-width: 1.2px;
+    }
+  }
+
+  /* Halftone dot field */
+  .halftone {
+    background-image: radial-gradient(
+      circle,
+      rgb(234 230 220 / 0.05) 1px,
+      transparent 1.3px
+    );
+    background-size: 16px 16px;
+  }
+
+  /* Film grain overlay */
+  .grain {
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    width: 200%;
+    height: 200%;
+    animation: 0.9s steps(4, end) infinite grain-shift;
+    position: fixed;
+    inset: -50%;
+  }
+  @keyframes grain-shift {
+    0% { transform: translate(0); }
+    25% { transform: translate(-2%, 3%); }
+    50% { transform: translate(3%, -2%); }
+    75% { transform: translate(-3%, -3%); }
+    100% { transform: translate(2%, 2%); }
+  }
+
+  /* Lenis smooth-scroll classes */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Scroll cue */
+  .cue-line {
+    transform-origin: top;
+    animation: 2.1s cubic-bezier(0.76, 0, 0.24, 1) infinite cue;
+  }
+  @keyframes cue {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    46% { transform-origin: bottom; }
+    90%, 100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* Split-word reveal (JS sets initial state) */
+  .mword {
+    display: inline-block;
+    will-change: opacity, transform;
+  }
+  .mword.is-hot {
+    color: var(--color-orange);
+  }
+
+  /* Sticky nav veil — a real child div that fades in once the page is
+     scrolled so the fixed header sits apart from the content underneath */
+  #nav {
+    isolation: isolate;
+  }
+  #nav-veil {
+    position: absolute;
+    inset: 0;
+    background: rgb(17 17 17 / 0.78);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgb(234 230 220 / 0.08);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  #nav.is-scrolled #nav-veil {
+    opacity: 1;
+  }
+
+  /* Legend index rows */
+  .legend-row {
+    transition: background-color 0.4s ease;
+  }
+  .legend-row h3 {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.35s ease;
+  }
+  .legend-row:hover h3,
+  .legend-row:focus-within h3 {
+    transform: translateX(0.35rem);
+    color: var(--color-orange);
+  }
+
+  /* House-rule rows */
+  .rule-row {
+    transition: background-color 0.35s ease;
+  }
+  .rule-row .rule-title {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.35s ease;
+  }
+  .rule-row:hover .rule-title,
+  .rule-row:focus-within .rule-title {
+    transform: translateX(0.35rem);
+    color: var(--color-orange);
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — coherent static experience
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .cue-line {
+    animation: none !important;
+  }
+  .mword {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

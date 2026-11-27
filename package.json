@@ -1,0 +1,21 @@
+{
+  "name": "basketball-parallax",
+  "version": "2.0.0",
+  "private": true,
+  "description": "BLACKTOP — a GSAP parallax love letter to street basketball",
+  "scripts": {
+    "build:css": "tailwindcss -i ./assets/src/input.css -o ./assets/css/blacktop.css --minify",
+    "watch:css": "tailwindcss -i ./assets/src/input.css -o ./assets/css/blacktop.css --watch",
+    "serve": "python3 scripts/serve.py 8080",
+    "test": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "jsdom": "^31.0.1"
+  },
+  "dependencies": {
+    "gsap": "^3.15.1",
+    "lenis": "^1.3.28"
+  },
+  "notes": "gsap/lenis npm packages are vendored into assets/vendor/ — the site runs fully self-hosted with no CDN."
+}
